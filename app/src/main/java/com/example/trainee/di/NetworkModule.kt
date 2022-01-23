@@ -10,7 +10,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-const val baseUrl = "https://21b583fd-bd40-4316-b34e-f1e9cf1df0ac.mock.pstmn.io/"
+const val baseUrl = "https://stoplight.io/mocks/kode-education/trainee-test/25143926/"
 
 @Module
 class NetworkModule{

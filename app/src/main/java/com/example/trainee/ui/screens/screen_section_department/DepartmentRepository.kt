@@ -11,7 +11,5 @@ interface DepartmentHostRepository {
 
 class DepartmentHostRepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDataSource) :
     DepartmentHostRepository {
-
     override fun fetchUsers(): Single<Users> = remoteDataSource.fetchUsers()
-
 }

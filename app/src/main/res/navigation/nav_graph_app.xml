@@ -8,5 +8,14 @@
         android:id="@+id/departmentHostFragment"
         android:name="com.example.trainee.ui.screens.screen_department_host.DepartmentHostFragment"
         android:label="fragment_department_host"
-        tools:layout="@layout/fragment_department_host" />
+        tools:layout="@layout/fragment_department_host" >
+        <action
+            android:id="@+id/action_departmentHostFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.trainee.ui.screens.screen_profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
