@@ -25,7 +25,7 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: DepartmentAdapter
     private var nameDepartment: String? = null
-    private var searchText: String? = null
+    private var searchText: String = ""
     private val listUsers: MutableList<User> = mutableListOf()
 
     companion object {
@@ -69,14 +69,17 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
         departmentViewModel.listUsers.observe(viewLifecycleOwner, { users ->
             if (nameDepartment == "all") listUsers.addAll(users.items)
             else listUsers.addAll(users.items.filter { it.department == nameDepartment })
-            if (searchText != null) departmentViewModel.onSearchTextChanged(searchText!!, listUsers)
+            if (searchText.isNotEmpty()) departmentViewModel.onSearchTextChanged(searchText, listUsers)
             else adapter.submitList(listUsers)
+
         })
     }
 
     private fun observeSearchList(adapter: DepartmentAdapter) {
         departmentViewModel.searchList.observe(viewLifecycleOwner, { listUsers ->
-            adapter.submitList(listUsers)
+            adapter.submitList(listUsers){
+                recyclerView.scrollToPosition(0)
+            }
         })
     }
 

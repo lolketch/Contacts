@@ -40,6 +40,13 @@ class DepartmentAdapter : ListAdapter<User, RecyclerView.ViewHolder>(UserItemDif
         }
     }
 
+    override fun onCurrentListChanged(
+        previousList: MutableList<User>,
+        currentList: MutableList<User>
+    ) {
+        super.onCurrentListChanged(previousList, currentList)
+    }
+
     fun attachClicks(userListAdapterClicks: UserListAdapterClicks) {
         this.userListAdapterClicks = userListAdapterClicks
     }
