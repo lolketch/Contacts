@@ -24,7 +24,7 @@ class DepartmentAdapter : ListAdapter<User, RecyclerView.ViewHolder>(UserItemDif
         val viewHolder = holder as DepartmentAdapter.DefaultViewHolder
         viewHolder.nameUserTextView.text =
             currentList[position].firstName + " " + currentList[position].lastName
-        viewHolder.positionUserTextView.text = currentList[position].position
+        viewHolder.positionUserTextView.text = currentList[position].department
         viewHolder.tagUserTextView.text = currentList[position].userTag.toLowerCase()
         Glide
             .with(viewHolder.itemView)

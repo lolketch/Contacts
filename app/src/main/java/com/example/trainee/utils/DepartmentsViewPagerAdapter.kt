@@ -12,6 +12,7 @@ import com.example.trainee.ui.screens.screen_section_department.DepartmentFragme
 class DepartmentsViewPagerAdapter(
     fm: FragmentManager,
     lifecycle: Lifecycle,
+    private val searchParam: SearchParams
 ) : FragmentStateAdapter(fm, lifecycle) {
     private val listDepartments = listOf(
         "all",
@@ -32,7 +33,10 @@ class DepartmentsViewPagerAdapter(
     override fun createFragment(position: Int): Fragment {
         val departmentFragment = DepartmentFragment()
         departmentFragment.arguments =
-            bundleOf(DepartmentFragment.NAME_DEPARTMENT to listDepartments[position])
+            bundleOf(
+                DepartmentFragment.NAME_DEPARTMENT to listDepartments[position],
+                DepartmentFragment.SEARCH_TEXT to searchParam
+            )
         return departmentFragment
     }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.trainee.data.model.User
 import com.example.trainee.data.model.Users
 import com.example.trainee.ui.screens.screen_department_host.DepartmentHostRepositoryImpl
+import com.example.trainee.utils.SearchParams
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -16,8 +17,8 @@ class DepartmentViewModel @Inject constructor(private val departmentHostReposito
     ViewModel() {
     private val compositeDisposable = CompositeDisposable()
     private val _listUsers = MutableLiveData<Users>()
-    val listUsers: LiveData<Users> = _listUsers
     private val _searchList = MutableLiveData<List<User>>()
+    val listUsers: LiveData<Users> = _listUsers
     val searchList: LiveData<List<User>> = _searchList
 
     init {
@@ -43,45 +44,11 @@ class DepartmentViewModel @Inject constructor(private val departmentHostReposito
     }
 
     fun onSearchTextChanged(searchText: String, listUsers: List<User>) {
-        val searchText2 = searchText.toLowerCase()
-        val q = listUsers.filter {
-            it.firstName.toLowerCase().contains(searchText2) ||
-                    it.lastName.toLowerCase().contains(searchText2) ||
-                    it.position.toLowerCase().contains(searchText2)
+        val filteredUserList = listUsers.filter {
+            it.firstName.lowercase().contains(searchText.lowercase()) ||
+                    it.lastName.lowercase().contains(searchText.lowercase()) ||
+                    it.position.lowercase().contains(searchText.lowercase())
         }
-        _searchList.postValue(q)
-
+        _searchList.postValue(filteredUserList)
     }
-//    fun fetchUsers(departmentName:String) {
-//        val cachedCharacters = TestCache.characterMap[departmentName]
-//        if (cachedCharacters != null){
-//            _listUsers.postValue(cachedCharacters!!)
-//            return
-//        }
-//        compositeDisposable.add(
-//            departmentHostRepository.fetchUsers()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({
-//                    _listUsers.postValue(it)
-//                    TestCache.characterMap[departmentName] = it
-//                }, {
-//                    Log.e("ViewModel", it.localizedMessage)
-//                })
-//        )
-//    }
-//
-//    private fun fetchDepartments() {
-//        compositeDisposable.add(
-//            departmentHostRepository.fetchUsers()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({
-//                    _listDepartments.postValue(it.items.map { it.department }.distinct().sortedBy { it })
-//                    val q = it.items.map { it.department }.distinct().sortedBy { it }
-//                }, {
-//                    Log.e("ViewModel", it.localizedMessage)
-//                })
-//        )
-//    }
 }
