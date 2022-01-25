@@ -1,8 +1,12 @@
 package com.example.trainee.ui.screens.screen_section_department
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +20,7 @@ import com.example.trainee.ui.screens.screen_profile.ProfileFragment
 import com.example.trainee.utils.MultiViewModelFactory
 import com.example.trainee.utils.SearchListener
 import com.example.trainee.utils.SearchParams
+import com.example.trainee.utils.UsersListViewState
 import javax.inject.Inject
 
 class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListener {
@@ -24,6 +29,8 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
     lateinit var departmentViewModel: DepartmentViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: DepartmentAdapter
+    private lateinit var loaderView: ProgressBar
+    private lateinit var testSuggestion: TextView
     private var nameDepartment: String? = null
     private var searchText: String = ""
     private val listUsers: MutableList<User> = mutableListOf()
@@ -40,11 +47,12 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
             ViewModelProvider(this, multiViewModelFactory)[DepartmentViewModel::class.java]
         nameDepartment = arguments?.get(NAME_DEPARTMENT).toString()
         searchText = (arguments?.get(SEARCH_TEXT) as SearchParams).searchText
-        Log.e("depFragment $nameDepartment", "$searchText")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        testSuggestion = view.findViewById(R.id.testSuggestion)
+        loaderView = view.findViewById(R.id.loaderView)
         recyclerView = view.findViewById(R.id.departmentRecyclerView)
         adapter = DepartmentAdapter()
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -53,8 +61,9 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
 //            layoutManager = LinearLayoutManager(context)
 //            adapter = adapter
 //        }
-        observeListUsers(adapter)
-        observeSearchList(adapter)
+        observeSearchList()
+        observeViewState()
+
         adapter.attachClicks(object : UserListAdapterClicks {
             override fun onItemClick(model: User) {
                 findNavController().navigate(
@@ -65,17 +74,41 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
         })
     }
 
-    private fun observeListUsers(adapter: DepartmentAdapter) {
-        departmentViewModel.listUsers.observe(viewLifecycleOwner, { users ->
-            if (nameDepartment == "all") listUsers.addAll(users.items)
-            else listUsers.addAll(users.items.filter { it.department == nameDepartment })
-            if (searchText.isNotEmpty()) departmentViewModel.onSearchTextChanged(searchText, listUsers)
-            else adapter.submitList(listUsers)
+    private fun bindViewState(viewState: UsersListViewState) {
+        when (viewState) {
+            is UsersListViewState.Loading -> {
+                recyclerView.visibility = View.GONE
+                loaderView.visibility = View.VISIBLE
+                testSuggestion.visibility = View.GONE
+            }
 
+            is UsersListViewState.Success -> {
+                if (nameDepartment == "all") listUsers.addAll(viewState.items)
+                else listUsers.addAll(viewState.items.filter { it.department == nameDepartment })
+                if (searchText.isNotEmpty()) departmentViewModel.onSearchTextChanged(searchText, listUsers)
+                else adapter.submitList(listUsers)
+
+                testSuggestion.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+                loaderView.visibility = View.GONE
+            }
+
+            is UsersListViewState.Error -> {
+                Toast.makeText(context, "Not internet connection", Toast.LENGTH_SHORT).show()
+                testSuggestion.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+                loaderView.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun observeViewState(){
+        departmentViewModel.viewState.observe(viewLifecycleOwner,{
+            bindViewState(it)
         })
     }
 
-    private fun observeSearchList(adapter: DepartmentAdapter) {
+    private fun observeSearchList() {
         departmentViewModel.searchList.observe(viewLifecycleOwner, { listUsers ->
             adapter.submitList(listUsers){
                 recyclerView.scrollToPosition(0)

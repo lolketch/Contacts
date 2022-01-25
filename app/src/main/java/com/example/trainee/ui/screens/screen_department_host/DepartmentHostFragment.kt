@@ -13,10 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.trainee.R
 import com.example.trainee.base.App
 import com.example.trainee.ui.screens.screen_section_department.DepartmentViewModel
-import com.example.trainee.utils.DepartmentsViewPagerAdapter
-import com.example.trainee.utils.MultiViewModelFactory
-import com.example.trainee.utils.SearchListener
-import com.example.trainee.utils.SearchParams
+import com.example.trainee.utils.*
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_department_host.*
@@ -50,6 +47,7 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val searchEditText = view.findViewById<EditText>(R.id.searchEditText)
         val departmentTabLayout = view.findViewById<TabLayout>(R.id.departmentTabLayout)
         val departmentViewPager = view.findViewById<ViewPager2>(R.id.departmentViewPager)
