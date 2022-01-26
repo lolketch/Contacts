@@ -1,5 +1,8 @@
 package com.example.trainee.di
 
+import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
 import com.example.trainee.data.remote.UsersApi
 import dagger.Module
 import dagger.Provides
@@ -13,7 +16,7 @@ import javax.inject.Singleton
 const val baseUrl = "https://run.mocky.io/v3/"
 
 @Module
-class NetworkModule{
+class NetworkModule {
 
     @Provides
     @Singleton
@@ -46,5 +49,10 @@ class NetworkModule{
     @Provides
     fun provideRetrofitApi(retrofit: Retrofit): UsersApi {
         return retrofit.create(UsersApi::class.java)
+    }
+
+    @Provides
+    fun provideConnectivityManager(application: Application): ConnectivityManager {
+        return application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 }

@@ -1,4 +1,4 @@
-package com.example.trainee.ui.screens.screen_department_host
+package com.example.trainee.ui.screens.screen_section_department
 
 import com.example.trainee.data.model.Users
 import com.example.trainee.data.remote.RemoteDataSource

@@ -1,17 +1,22 @@
 package com.example.trainee.ui.screens.screen_department_host
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
+import androidx.core.view.marginTop
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.trainee.R
 import com.example.trainee.base.App
+import com.example.trainee.ui.screens.screen_section_department.DepartmentFragment
 import com.example.trainee.ui.screens.screen_section_department.DepartmentViewModel
 import com.example.trainee.utils.*
 import com.google.android.material.tabs.TabLayout
@@ -51,6 +56,7 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
         val searchEditText = view.findViewById<EditText>(R.id.searchEditText)
         val departmentTabLayout = view.findViewById<TabLayout>(R.id.departmentTabLayout)
         val departmentViewPager = view.findViewById<ViewPager2>(R.id.departmentViewPager)
+        val imageSearchTool = view.findViewById<ImageView>(R.id.imageSearchTool)
         val searchParams = SearchParams(searchText = searchEditText.text.toString())
         val adapter = DepartmentsViewPagerAdapter(
             childFragmentManager,
@@ -58,7 +64,6 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
             searchParams
         )
 
-        departmentViewPager.offscreenPageLimit = 3
         departmentViewPager.registerOnPageChangeCallback(viewPagerChangeCallback)
         departmentViewPager.adapter = adapter
         attachTabs(departmentTabLayout, departmentViewPager)
@@ -67,6 +72,12 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
             searchParams.searchText = it.toString()
             onSearchTextChanged(it)
         }
+        searchEditText.setOnFocusChangeListener { _, _ ->
+            imageSearchTool.setColorFilter(
+                Color.BLACK
+            )
+        }
+
     }
 
     private fun attachTabs(departmentTabLayout: TabLayout, departmentViewPager: ViewPager2) {
@@ -80,7 +91,6 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
             it.onPageSelected(searchEditText.text.toString())
         }
     }
-
 
     private fun onSearchTextChanged(editable: Editable?) {
         val searchText = editable?.toString() ?: ""

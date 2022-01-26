@@ -18,7 +18,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val test = arguments?.get(USER_DATA) as User
-        Log.e("ProfileFragment","${test.avatar}")
 
         val photo = view.findViewById<ImageView>(R.id.profileImageView)
         val name = view.findViewById<TextView>(R.id.firstNameTextView)
