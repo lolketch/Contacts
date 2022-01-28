@@ -2,6 +2,7 @@ package com.example.trainee.di
 
 import android.app.Application
 import com.example.trainee.ui.screens.screen_department_host.DepartmentHostFragment
+import com.example.trainee.ui.screens.screen_error.ErrorFragment
 import com.example.trainee.ui.screens.screen_section_department.DepartmentFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -25,4 +26,5 @@ interface AppComponent {
 
     fun inject(departmentHostFragment: DepartmentHostFragment)
     fun inject(departmentFragment: DepartmentFragment)
+    fun inject(errorFragment: ErrorFragment)
 }

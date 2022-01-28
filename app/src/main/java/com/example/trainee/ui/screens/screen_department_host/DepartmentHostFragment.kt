@@ -28,6 +28,10 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     @Inject
     lateinit var multiViewModelFactory: MultiViewModelFactory
     lateinit var departmentHostViewModel: DepartmentHostViewModel
+    private lateinit var searchEditText: EditText
+    private lateinit var departmentTabLayout: TabLayout
+    private lateinit var departmentViewPager: ViewPager2
+    private lateinit var imageSearchTool: ImageView
 
     private val tabsTitles by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
@@ -53,21 +57,23 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val searchEditText = view.findViewById<EditText>(R.id.searchEditText)
-        val departmentTabLayout = view.findViewById<TabLayout>(R.id.departmentTabLayout)
-        val departmentViewPager = view.findViewById<ViewPager2>(R.id.departmentViewPager)
-        val imageSearchTool = view.findViewById<ImageView>(R.id.imageSearchTool)
-        val searchParams = SearchParams(searchText = searchEditText.text.toString())
-        val adapter = DepartmentsViewPagerAdapter(
-            childFragmentManager,
-            lifecycle,
-            searchParams
-        )
+        searchEditText = view.findViewById(R.id.searchEditText)
+        departmentTabLayout = view.findViewById(R.id.departmentTabLayout)
+        departmentViewPager = view.findViewById(R.id.departmentViewPager)
+        imageSearchTool = view.findViewById(R.id.imageSearchTool)
 
+        val searchParams = SearchParams(searchText = searchEditText.text.toString())
+        val adapter = DepartmentsViewPagerAdapter(childFragmentManager, lifecycle, searchParams)
         departmentViewPager.registerOnPageChangeCallback(viewPagerChangeCallback)
         departmentViewPager.adapter = adapter
         attachTabs(departmentTabLayout, departmentViewPager)
 
+        setSearchEditTextListener(searchParams = searchParams)
+
+        observeConnection()
+    }
+
+    private fun setSearchEditTextListener(searchParams: SearchParams) {
         searchEditText.addTextChangedListener {
             searchParams.searchText = it.toString()
             onSearchTextChanged(it)
@@ -77,7 +83,16 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
                 Color.BLACK
             )
         }
+    }
 
+    private fun observeConnection() {
+        departmentHostViewModel.connection.observe(viewLifecycleOwner, {
+            if (it == false) {
+                view?.postDelayed({
+                    findNavController().navigate(R.id.action_departmentHostFragment_to_errorFragment)
+                }, 500)
+            }
+        })
     }
 
     private fun attachTabs(departmentTabLayout: TabLayout, departmentViewPager: ViewPager2) {

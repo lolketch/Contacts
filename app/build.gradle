@@ -36,6 +36,9 @@ android {
 dependencies {
     //implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
+    // Swipe refresh layout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
     // Dagger 2
     def dagger2_ver = '2.40.1'
     implementation "com.google.dagger:dagger:$dagger2_ver"

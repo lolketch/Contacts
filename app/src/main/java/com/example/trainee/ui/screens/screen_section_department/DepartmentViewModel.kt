@@ -33,7 +33,7 @@ class DepartmentViewModel @Inject constructor(
         super.onCleared()
     }
 
-    private fun fetchUsers() {
+    fun fetchUsers() {
         if (connectResolver.isOnline()) {
             _viewState.postValue(UsersListViewState.Loading)
             compositeDisposable.add(
@@ -48,9 +48,6 @@ class DepartmentViewModel @Inject constructor(
                     })
             )
         } else _viewState.postValue(UsersListViewState.Error("Not internet"))
-    }
-
-    fun onError(){
     }
 
     fun onSearchTextChanged(searchText: String, listUsers: List<User>) {

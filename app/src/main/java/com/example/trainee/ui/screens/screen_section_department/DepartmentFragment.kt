@@ -19,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.trainee.R
 import com.example.trainee.base.App
 import com.example.trainee.data.model.User
@@ -36,6 +37,7 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
     private lateinit var adapter: DepartmentAdapter
     private lateinit var loaderView: ProgressBar
     private lateinit var testSuggestion: TextView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private var nameDepartment: String? = null
     private var searchText: String = ""
     private val listUsers: MutableList<User> = mutableListOf()
@@ -60,6 +62,7 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
         testSuggestion = view.findViewById(R.id.testSuggestion)
         loaderView = view.findViewById(R.id.loaderView)
         recyclerView = view.findViewById(R.id.departmentRecyclerView)
+        swipeRefresh = view.findViewById(R.id.swipeRefresh)
         adapter = DepartmentAdapter()
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -69,6 +72,7 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
 //        }
         observeSearchList()
         observeViewState()
+        initRefreshLayout()
 
         adapter.attachClicks(object : UserListAdapterClicks {
             override fun onItemClick(model: User) {
@@ -103,7 +107,11 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
             }
 
             is UsersListViewState.Error -> {
-                view?.let { onSnackView(it) }
+                onSnackView(
+                    requireView(), "Не могу обновить данные.\n" +
+                            "Проверь соединение с интернетом.",
+                    "#FFF44336"
+                )
                 testSuggestion.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
                 loaderView.visibility = View.GONE
@@ -111,15 +119,23 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
         }
     }
 
-    fun onSnackView(view: View){
-        val snackbar = Snackbar.make(view, "Не могу обновить данные.\nПроверь соединение с интернетом.",
-            Snackbar.LENGTH_SHORT)
-        snackbar.setBackgroundTint(ContextCompat.getColor(requireContext(),R.color.error))
-        val textView =
-            snackbar.view.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-        textView.setTextColor(Color.WHITE)
-        textView.textSize = 16f
-        snackbar.show()
+    private fun initRefreshLayout() {
+        swipeRefresh.setOnRefreshListener {
+            onRefresh()
+        }
+    }
+
+    private fun onRefresh() {
+        departmentViewModel.fetchUsers()
+        onSnackView(requireView(), "Секундочку, гружусь...", "#FF6534FF")
+        swipeRefresh.isRefreshing = false
+    }
+
+    private fun onSnackView(view: View, text: String, backColor: String) {
+        Snackbar.make(view, text, Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(Color.parseColor(backColor))
+            .setTextColor(Color.WHITE)
+            .show()
     }
 
     private fun observeViewState() {
