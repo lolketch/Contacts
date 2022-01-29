@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd = "16dp"
         android:layout_marginTop="22dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/item_search"
+        android:focusable="auto"
+        android:hint="@string/search_suggestion"
         android:paddingStart="44dp"
         android:paddingEnd="30dp"
-        android:background="@drawable/item_search"
-        android:hint="@string/search_suggestion"
-        android:focusable="auto"
         android:singleLine="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -38,19 +38,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
-        app:tabMode="scrollable"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchEditText"
+        app:tabMode="scrollable"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/departmentViewPager"
+    <com.dinuscxj.refresh.RecyclerRefreshLayout
+        android:id="@+id/swipeRefresh2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/departmentTabLayout" />
+        app:layout_constraintTop_toBottomOf="@id/departmentTabLayout"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/departmentViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.dinuscxj.refresh.RecyclerRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

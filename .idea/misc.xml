@@ -8,12 +8,15 @@
         <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/drawable/ic_search_24.xml" value="0.38981481481481484" />
         <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/drawable/item_search.xml" value="0.37592592592592594" />
         <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/drawable/ripple_text.xml" value="0.39692307692307693" />
+        <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/drawable/skeleton.xml" value="0.39692307692307693" />
         <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/layout/fragment_department.xml" value="0.35800807537012114" />
         <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/layout/fragment_department_host.xml" value="0.30861244019138756" />
         <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/layout/fragment_error.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/layout/fragment_profile.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/layout/item.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/layout/skeleton.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/layout/skeleton_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/ostap/AndroidStudioProjects/Trainee/app/src/main/res/layout/toast_error.xml" value="0.18819655521783182" />
       </map>
     </option>

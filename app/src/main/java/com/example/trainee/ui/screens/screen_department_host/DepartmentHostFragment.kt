@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.dinuscxj.refresh.RecyclerRefreshLayout
 import com.example.trainee.R
 import com.example.trainee.base.App
 import com.example.trainee.ui.screens.screen_section_department.DepartmentFragment
@@ -32,6 +33,7 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     private lateinit var departmentTabLayout: TabLayout
     private lateinit var departmentViewPager: ViewPager2
     private lateinit var imageSearchTool: ImageView
+    private lateinit var swipeRefresh: RecyclerRefreshLayout
 
     private val tabsTitles by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
@@ -41,8 +43,21 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     }
     private val viewPagerChangeCallback by lazy() {
         object : ViewPager2.OnPageChangeCallback() {
+
             override fun onPageSelected(position: Int) {
                 this@DepartmentHostFragment.onPageSelected()
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+
+                when (state) {
+                    ViewPager2.SCROLL_STATE_IDLE -> swipeRefresh.isEnabled = true
+
+                    ViewPager2.SCROLL_STATE_DRAGGING -> swipeRefresh.isEnabled = false
+
+                    ViewPager2.SCROLL_STATE_SETTLING -> swipeRefresh.isEnabled = false
+                }
             }
         }
     }
@@ -61,6 +76,7 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
         departmentTabLayout = view.findViewById(R.id.departmentTabLayout)
         departmentViewPager = view.findViewById(R.id.departmentViewPager)
         imageSearchTool = view.findViewById(R.id.imageSearchTool)
+        swipeRefresh = view.findViewById(R.id.swipeRefresh2)
 
         val searchParams = SearchParams(searchText = searchEditText.text.toString())
         val adapter = DepartmentsViewPagerAdapter(childFragmentManager, lifecycle, searchParams)
@@ -70,7 +86,16 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
 
         setSearchEditTextListener(searchParams = searchParams)
 
+        initRefreshLayout()
+
         observeConnection()
+    }
+
+    private fun initRefreshLayout() {
+        swipeRefresh.setOnRefreshListener {
+            departmentViewPager.isUserInputEnabled = false
+            onRefresh()
+        }
     }
 
     private fun setSearchEditTextListener(searchParams: SearchParams) {
@@ -105,6 +130,14 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
         doWithSelectedPage {
             it.onPageSelected(searchEditText.text.toString())
         }
+    }
+
+    private fun onRefresh() {
+        doWithSelectedPage {
+            it.onRefresh()
+        }
+        departmentViewPager.isUserInputEnabled = true
+        swipeRefresh.setRefreshing(false)
     }
 
     private fun onSearchTextChanged(editable: Editable?) {
