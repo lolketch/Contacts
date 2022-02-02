@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 class ErrorViewModel @Inject constructor(private val connectResolver: ConnectResolver) :
     ViewModel() {
+
     private val _connection = MutableLiveData<Boolean>()
     val connection: LiveData<Boolean> = _connection
 

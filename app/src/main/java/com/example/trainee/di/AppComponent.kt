@@ -6,12 +6,12 @@ import com.example.trainee.ui.screens.screen_error.ErrorFragment
 import com.example.trainee.ui.screens.screen_section_department.DepartmentFragment
 import dagger.BindsInstance
 import dagger.Component
+import dagger.Module
 import javax.inject.Singleton
 
 @Component(
     modules = [
-        NetworkModule::class,
-        ViewModelModule::class
+        AppModule::class
     ]
 )
 @Singleton
@@ -28,3 +28,11 @@ interface AppComponent {
     fun inject(departmentFragment: DepartmentFragment)
     fun inject(errorFragment: ErrorFragment)
 }
+
+@Module(
+    includes = [
+        NetworkModule::class,
+        ViewModelModule::class
+    ]
+)
+class AppModule

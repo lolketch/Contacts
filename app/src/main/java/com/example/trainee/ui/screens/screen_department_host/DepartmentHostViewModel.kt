@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 class DepartmentHostViewModel @Inject constructor(private val connectResolver: ConnectResolver) :
     ViewModel() {
+
     private val _connection = MutableLiveData<Boolean>()
     val connection: LiveData<Boolean> = _connection
 
@@ -16,8 +17,7 @@ class DepartmentHostViewModel @Inject constructor(private val connectResolver: C
     }
 
     private fun checkConnection() {
-        if (connectResolver.isOnline()) {
-            _connection.postValue(true)
-        } else _connection.postValue(false)
+        if (connectResolver.isOnline()) _connection.postValue(true)
+        else _connection.postValue(false)
     }
 }

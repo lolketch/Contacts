@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.trainee.data.model.User
 import com.example.trainee.ui.screens.screen_section_department.DepartmentFragment
 
 

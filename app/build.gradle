@@ -24,35 +24,38 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 
 dependencies {
-    //implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     // Swipe refresh layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation 'com.dinuscxj:recyclerrefreshlayout:2.0.5'
 
-
     // Dagger 2
     def dagger2_ver = '2.40.1'
     implementation "com.google.dagger:dagger:$dagger2_ver"
     kapt "com.google.dagger:dagger-compiler:$dagger2_ver"
-    //implementation 'javax.inject:javax.inject:1'
 
     // ViewPager2
     def view_pager_ver = '1.0.0'
     implementation "androidx.viewpager2:viewpager2:$view_pager_ver"
 
     // Navigation component
-    def nav_version = "2.3.5"
+    def nav_version = '2.4.0'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 

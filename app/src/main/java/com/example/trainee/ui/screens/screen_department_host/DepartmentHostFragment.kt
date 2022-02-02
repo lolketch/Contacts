@@ -3,37 +3,29 @@ package com.example.trainee.ui.screens.screen_department_host
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import androidx.core.view.marginTop
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.dinuscxj.refresh.RecyclerRefreshLayout
 import com.example.trainee.R
 import com.example.trainee.base.App
-import com.example.trainee.ui.screens.screen_section_department.DepartmentFragment
-import com.example.trainee.ui.screens.screen_section_department.DepartmentViewModel
+import com.example.trainee.databinding.FragmentDepartmentHostBinding
 import com.example.trainee.utils.*
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_department_host.*
 import javax.inject.Inject
 
 class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     @Inject
-    lateinit var multiViewModelFactory: MultiViewModelFactory
-    lateinit var departmentHostViewModel: DepartmentHostViewModel
-    private lateinit var searchEditText: EditText
-    private lateinit var departmentTabLayout: TabLayout
-    private lateinit var departmentViewPager: ViewPager2
-    private lateinit var imageSearchTool: ImageView
-    private lateinit var swipeRefresh: RecyclerRefreshLayout
+    lateinit var viewModelFactory: MultiViewModelFactory
+    private lateinit var viewModel: DepartmentHostViewModel
+
+    private var _binding: FragmentDepartmentHostBinding? = null
+    private val binding get() = _binding!!
+
+    private var adapterViewPager: DepartmentsViewPagerAdapter? = null
 
     private val tabsTitles by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
@@ -41,7 +33,7 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
             "Backend", "Design", "Frontend", "HR", "iOS", "Management", "PR", "QA", "Support"
         )
     }
-    private val viewPagerChangeCallback by lazy() {
+    private val viewPagerCallback by lazy() {
         object : ViewPager2.OnPageChangeCallback() {
 
             override fun onPageSelected(position: Int) {
@@ -52,11 +44,9 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
                 super.onPageScrollStateChanged(state)
 
                 when (state) {
-                    ViewPager2.SCROLL_STATE_IDLE -> swipeRefresh.isEnabled = true
-
-                    ViewPager2.SCROLL_STATE_DRAGGING -> swipeRefresh.isEnabled = false
-
-                    ViewPager2.SCROLL_STATE_SETTLING -> swipeRefresh.isEnabled = false
+                    ViewPager2.SCROLL_STATE_IDLE -> binding.swipeRefresh.isEnabled = true
+                    ViewPager2.SCROLL_STATE_DRAGGING -> binding.swipeRefresh.isEnabled = false
+                    ViewPager2.SCROLL_STATE_SETTLING -> binding.swipeRefresh.isEnabled = false
                 }
             }
         }
@@ -65,70 +55,73 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.applicationContext as App).appComponent.inject(departmentHostFragment = this)
-        departmentHostViewModel =
-            ViewModelProvider(this, multiViewModelFactory)[DepartmentHostViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[DepartmentHostViewModel::class.java]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentDepartmentHostBinding.bind(view)
 
-        searchEditText = view.findViewById(R.id.searchEditText)
-        departmentTabLayout = view.findViewById(R.id.departmentTabLayout)
-        departmentViewPager = view.findViewById(R.id.departmentViewPager)
-        imageSearchTool = view.findViewById(R.id.imageSearchTool)
-        swipeRefresh = view.findViewById(R.id.swipeRefresh2)
+        val searchParams = SearchParams(searchText = binding.searchEditText.text.toString())
+        adapterViewPager = DepartmentsViewPagerAdapter(childFragmentManager, lifecycle, searchParams)
 
-        val searchParams = SearchParams(searchText = searchEditText.text.toString())
-        val adapter = DepartmentsViewPagerAdapter(childFragmentManager, lifecycle, searchParams)
-        departmentViewPager.registerOnPageChangeCallback(viewPagerChangeCallback)
-        departmentViewPager.adapter = adapter
-        attachTabs(departmentTabLayout, departmentViewPager)
+        binding.viewPager.apply {
+            registerOnPageChangeCallback(viewPagerCallback)
+            this.adapter = adapterViewPager
+        }
 
+        attachTabs()
         setSearchEditTextListener(searchParams = searchParams)
-
-        initRefreshLayout()
-
+        setRefreshListener()
         observeConnection()
     }
 
-    private fun initRefreshLayout() {
-        swipeRefresh.setOnRefreshListener {
-            departmentViewPager.isUserInputEnabled = false
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapterViewPager = null
+        _binding = null
+    }
+
+    private fun setRefreshListener() {
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.viewPager.isUserInputEnabled = false
             onRefresh()
         }
     }
 
     private fun setSearchEditTextListener(searchParams: SearchParams) {
-        searchEditText.addTextChangedListener {
-            searchParams.searchText = it.toString()
-            onSearchTextChanged(it)
-        }
-        searchEditText.setOnFocusChangeListener { _, _ ->
-            imageSearchTool.setColorFilter(
-                Color.BLACK
-            )
+        binding.searchEditText.apply {
+            addTextChangedListener {
+                searchParams.searchText = it.toString()
+                onSearchTextChanged(it)
+            }
+            setOnFocusChangeListener { _, _ ->
+                binding.imageSearchTool.setColorFilter(Color.BLACK)
+            }
         }
     }
 
     private fun observeConnection() {
-        departmentHostViewModel.connection.observe(viewLifecycleOwner, {
+        viewModel.connection.observe(viewLifecycleOwner, {
             if (it == false) {
                 view?.postDelayed({
-                    findNavController().navigate(R.id.action_departmentHostFragment_to_errorFragment)
+                    findNavController().navigate(
+                        R.id.action_departmentHostFragment_to_errorFragment
+                    )
                 }, 500)
             }
         })
     }
 
-    private fun attachTabs(departmentTabLayout: TabLayout, departmentViewPager: ViewPager2) {
-        TabLayoutMediator(departmentTabLayout, departmentViewPager) { tab, position ->
+    private fun attachTabs() {
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = tabsTitles[position]
         }.attach()
     }
 
     private fun onPageSelected() {
         doWithSelectedPage {
-            it.onPageSelected(searchEditText.text.toString())
+            it.onPageSelected(binding.searchEditText.text.toString())
         }
     }
 
@@ -136,8 +129,8 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
         doWithSelectedPage {
             it.onRefresh()
         }
-        departmentViewPager.isUserInputEnabled = true
-        swipeRefresh.setRefreshing(false)
+        binding.viewPager.isUserInputEnabled = true
+        binding.swipeRefresh.setRefreshing(false)
     }
 
     private fun onSearchTextChanged(editable: Editable?) {
@@ -149,7 +142,7 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
 
     private fun doWithSelectedPage(action: (SearchListener) -> Unit) {
         childFragmentManager
-            .findFragmentByTag("f" + departmentViewPager.currentItem)
+            .findFragmentByTag("f" + viewPager.currentItem)
             ?.let { selectedPage ->
                 if (selectedPage is SearchListener) {
                     action.invoke(selectedPage)

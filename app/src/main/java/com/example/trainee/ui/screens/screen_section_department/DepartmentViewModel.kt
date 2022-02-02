@@ -16,8 +16,7 @@ class DepartmentViewModel @Inject constructor(
     private val departmentHostRepository: DepartmentHostRepositoryImpl,
     private val connectResolver: ConnectResolver,
     application: Application
-) :
-    AndroidViewModel(application) {
+) : AndroidViewModel(application) {
     private val compositeDisposable = CompositeDisposable()
     private val _searchList = MutableLiveData<List<User>>()
     private val _viewState = MutableLiveData<UsersListViewState>()
@@ -43,8 +42,7 @@ class DepartmentViewModel @Inject constructor(
                     .subscribe({
                         _viewState.postValue(UsersListViewState.Success(items = it.items))
                     }, {
-                        _viewState.postValue(UsersListViewState.Error(it.localizedMessage))
-                        throw Exception(it)
+                        _viewState.postValue(UsersListViewState.Error(message = it.localizedMessage))
                     })
             )
         } else _viewState.postValue(UsersListViewState.Error("Not internet"))

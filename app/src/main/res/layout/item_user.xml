@@ -28,11 +28,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="15dp"
-            android:textSize="16sp"
             android:textColor="#FF050510"
-            tools:text="Алиса Иванова"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/avatarImageView"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Алиса Иванова" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/positionUserTextView"
@@ -40,22 +40,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="3dp"
-            android:textSize="13sp"
             android:textColor="#FF55555C"
-            tools:text="Android"
+            android:textSize="13sp"
             app:layout_constraintStart_toEndOf="@id/avatarImageView"
-            app:layout_constraintTop_toBottomOf="@id/nameUserTextView"/>
+            app:layout_constraintTop_toBottomOf="@id/nameUserTextView"
+            tools:text="Android" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tagUserTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:textSize="14sp"
             android:textColor="#FF97979B"
-            tools:text="al"
+            android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@id/nameUserTextView"
-            app:layout_constraintTop_toTopOf="@id/nameUserTextView"/>
+            app:layout_constraintTop_toTopOf="@id/nameUserTextView"
+            tools:text="al" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

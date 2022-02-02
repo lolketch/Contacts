@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Trainee</string>
-    <string name="search_suggestion">Введите имя, тег, почту...</string>
+    <string name="search_suggestion">Введите имя, тег, почту…</string>
+    <string name="error_title">Какой-то сверхразум все сломал</string>
+    <string name="error_title2">Постараемся быстро починить</string>
+    <string name="error_retry">Попробовать снова</string>
+    <string name="snack_error">Не могу обновить данные.\nПроверь соединение с интернетом.</string>
+    <string name="snack_refresh">Секундочку, гружусь…</string>
 </resources>
