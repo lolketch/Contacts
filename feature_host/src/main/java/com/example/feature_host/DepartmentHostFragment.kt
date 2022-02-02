@@ -31,6 +31,7 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     private val binding get() = _binding!!
 
     private var adapterViewPager: DepartmentsViewPagerAdapter? = null
+    private var tabLayoutMediator: TabLayoutMediator? = null
 
     private val tabsTitles by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
@@ -85,6 +86,9 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     override fun onDestroyView() {
         super.onDestroyView()
         adapterViewPager = null
+        tabLayoutMediator?.detach()
+        tabLayoutMediator = null
+        binding.viewPager.adapter = null
         _binding = null
     }
 
@@ -120,9 +124,11 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     }
 
     private fun attachTabs() {
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = tabsTitles[position]
-        }.attach()
+        tabLayoutMediator =
+            TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+                tab.text = tabsTitles[position]
+            }
+        tabLayoutMediator?.attach()
     }
 
     private fun onPageSelected() {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_title">Какой-то сверхразум все сломал</string>
+    <string name="error_title2">Постараемся быстро починить</string>
+    <string name="error_retry">Попробовать снова</string>
+</resources>

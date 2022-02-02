@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 
     // Swipe refresh layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"

@@ -33,9 +33,10 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
     private lateinit var nameDepartment: String
     private val listUsers: MutableList<User> = mutableListOf()
 
-    private val departmentAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        DepartmentAdapter()
-    }
+//    private val departmentAdapter by lazy(LazyThreadSafetyMode.NONE) {
+//        DepartmentAdapter()
+//    }
+    private var departmentAdapter: DepartmentAdapter? = null
 
     override fun onAttach(context: Context) {
         ViewModelProvider(this).get<FeatureDepartmentComponentViewModel>()
@@ -52,6 +53,7 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDepartmentBinding.bind(view)
 
+        departmentAdapter = DepartmentAdapter()
         initUi()
         observeSearchList()
         observeViewState()
@@ -61,6 +63,7 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        departmentAdapter = null
     }
 
     private fun initUi() {
@@ -76,7 +79,7 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
     }
 
     private fun attachClicksAdapter() {
-        departmentAdapter.attachClicks(object : UserListAdapterClicks {
+        departmentAdapter?.attachClicks(object : UserListAdapterClicks {
             override fun onItemClick(model: User) {
                 findNavController().navigate(
                     R.id.action_departmentHostFragment_to_profileFragment,
@@ -113,7 +116,7 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
         if (searchText.isNotEmpty()) {
             viewModel.onSearchTextChanged(searchText, listUsers)
         } else {
-            departmentAdapter.submitList(listUsers)
+            departmentAdapter?.submitList(listUsers)
         }
         searchText = ""
     }
@@ -135,7 +138,7 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
 
     private fun observeSearchList() {
         viewModel.searchList.observe(viewLifecycleOwner, { listUsers ->
-            departmentAdapter.submitList(listUsers) {
+            departmentAdapter?.submitList(listUsers) {
                 binding.userRecyclerView.scrollToPosition(0)
             }
         })

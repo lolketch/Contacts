@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="snack_error">Не могу обновить данные.\nПроверь соединение с интернетом.</string>
+    <string name="snack_refresh">Секундочку, гружусь…</string>
+</resources>
