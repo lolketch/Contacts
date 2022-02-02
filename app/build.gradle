@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
 }
 
 android {
@@ -93,6 +92,8 @@ dependencies {
     implementation project(":api")
     implementation project(":feature_list")
     implementation project(":feature_detail")
+    implementation project(":feature_host")
+    implementation project(":feature_error")
     implementation project(":navigation")
 
     implementation 'androidx.core:core-ktx:1.7.0'

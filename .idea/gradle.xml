@@ -14,6 +14,8 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/feature_detail" />
+            <option value="$PROJECT_DIR$/feature_error" />
+            <option value="$PROJECT_DIR$/feature_host" />
             <option value="$PROJECT_DIR$/feature_list" />
             <option value="$PROJECT_DIR$/navigation" />
           </set>

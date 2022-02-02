@@ -3,7 +3,7 @@ package com.example.trainee.di
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import com.example.trainee.data.remote.UsersApi
+import com.example.api.UsersApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -19,7 +19,6 @@ const val baseUrl = "https://run.mocky.io/v3/"
 class NetworkModule {
 
     @Provides
-    @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -27,7 +26,6 @@ class NetworkModule {
     }
 
     @Provides
-    @Singleton
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addNetworkInterceptor(httpLoggingInterceptor)
@@ -36,7 +34,6 @@ class NetworkModule {
 
 
     @Provides
-    @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
