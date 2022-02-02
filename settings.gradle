@@ -8,3 +8,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Trainee"
 include ':app'
+include ':api'
+include ':core'
+include ':feature_list'
+include ':feature_detail'
+include ':navigation'
