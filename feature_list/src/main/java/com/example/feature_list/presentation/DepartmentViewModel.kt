@@ -1,21 +1,21 @@
-package com.example.feature_list
+package com.example.feature_list.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.example.api.ConnectResolver
+import com.example.feature_list.UsersListViewState
+import com.example.feature_list.domain.GetUsersUseCase
 import com.example.trainee.data.model.User
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+import javax.inject.Provider
 
-class DepartmentViewModel @Inject constructor(
-    private val departmentHostRepository: DepartmentHostRepositoryImpl,
-    private val connectResolver: ConnectResolver,
-    application: Application
-) : AndroidViewModel(application) {
+internal class DepartmentViewModel(
+    private val getUsersUseCase: GetUsersUseCase,
+    private val connectResolver: ConnectResolver
+) : ViewModel() {
+
     private val compositeDisposable = CompositeDisposable()
     private val _searchList = MutableLiveData<List<User>>()
     private val _viewState = MutableLiveData<UsersListViewState>()
@@ -35,7 +35,7 @@ class DepartmentViewModel @Inject constructor(
         if (connectResolver.isOnline()) {
             _viewState.postValue(UsersListViewState.Loading)
             compositeDisposable.add(
-                departmentHostRepository.fetchUsers()
+                getUsersUseCase.fetchUsers()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
@@ -54,5 +54,17 @@ class DepartmentViewModel @Inject constructor(
                     it.position.lowercase().contains(searchText.lowercase())
         }
         _searchList.postValue(filteredUserList)
+    }
+
+    class Factory @Inject constructor(
+        private val getUsersUseCase: Provider<GetUsersUseCase>,
+        private val connectResolver: Provider<ConnectResolver>
+    ) : ViewModelProvider.Factory {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            require(modelClass == DepartmentViewModel::class.java)
+            return DepartmentViewModel(getUsersUseCase.get(),connectResolver.get()) as T
+        }
     }
 }

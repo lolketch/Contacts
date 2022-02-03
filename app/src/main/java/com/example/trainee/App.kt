@@ -3,7 +3,7 @@ package com.example.trainee
 import android.app.Application
 import com.example.feature_error.ErrorDepsStore
 import com.example.feature_host.HostDepsStore
-import com.example.feature_list.DepartmentDepsStore
+import com.example.feature_list.di.DepartmentDepsStore
 
 class App : Application() {
     val appComponent: AppComponent by lazy {

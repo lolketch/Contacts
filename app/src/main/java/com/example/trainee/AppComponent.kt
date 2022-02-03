@@ -6,7 +6,7 @@ import com.example.api.MultiViewModelFactory
 import com.example.api.RemoteDataSource
 import com.example.feature_error.ErrorDeps
 import com.example.feature_host.HostDeps
-import com.example.feature_list.DepartmentDeps
+import com.example.feature_list.di.DepartmentDeps
 import com.example.trainee.di.NetworkModule
 import com.example.trainee.di.ViewModelModule
 import dagger.BindsInstance
@@ -16,7 +16,7 @@ import javax.inject.Scope
 
 @AppScope
 @Component(modules = [AppModule::class])
-interface AppComponent: HostDeps,DepartmentDeps,ErrorDeps {
+interface AppComponent: HostDeps, DepartmentDeps,ErrorDeps {
 
     override val remoteDataSource: RemoteDataSource
 

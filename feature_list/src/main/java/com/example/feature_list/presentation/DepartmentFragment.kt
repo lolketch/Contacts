@@ -1,4 +1,4 @@
-package com.example.feature_list
+package com.example.feature_list.presentation
 
 import android.content.Context
 import android.graphics.Color
@@ -13,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.api.MultiViewModelFactory
 import com.example.core.SearchListener
+import com.example.feature_list.*
+import com.example.feature_list.di.FeatureDepartmentComponentViewModel
 import com.example.feature_list.databinding.FragmentDepartmentBinding
 import com.example.trainee.data.model.User
 import com.google.android.material.snackbar.Snackbar
@@ -21,7 +23,7 @@ import javax.inject.Inject
 
 class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListener {
     @Inject
-    lateinit var viewModelFactory: Lazy<MultiViewModelFactory>
+    internal lateinit var viewModelFactory: Lazy<DepartmentViewModel.Factory>
     private val viewModel: DepartmentViewModel by viewModels {
         viewModelFactory.get()
     }
@@ -33,9 +35,6 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
     private lateinit var nameDepartment: String
     private val listUsers: MutableList<User> = mutableListOf()
 
-//    private val departmentAdapter by lazy(LazyThreadSafetyMode.NONE) {
-//        DepartmentAdapter()
-//    }
     private var departmentAdapter: DepartmentAdapter? = null
 
     override fun onAttach(context: Context) {

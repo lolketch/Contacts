@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.core.SearchParams
-import com.example.feature_list.DepartmentFragment
+import com.example.feature_list.presentation.DepartmentFragment
 
 
 class DepartmentsViewPagerAdapter(

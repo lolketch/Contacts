@@ -1,4 +1,4 @@
-package com.example.feature_list
+package com.example.feature_list.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.feature_list.R
 import com.example.feature_list.databinding.ItemUserBinding
 import com.example.trainee.data.model.User
 
