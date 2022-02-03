@@ -1,4 +1,4 @@
-package com.example.feature_error
+package com.example.feature_error.presentation
 
 import android.content.Context
 import android.os.Bundle
@@ -9,14 +9,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import com.example.api.MultiViewModelFactory
+import com.example.feature_error.di.FeatureErrorComponentViewModel
+import com.example.feature_error.R
 import com.example.feature_error.databinding.FragmentErrorBinding
 import dagger.Lazy
 import javax.inject.Inject
 
 class ErrorFragment : Fragment(R.layout.fragment_error) {
     @Inject
-    lateinit var viewModelFactory: Lazy<MultiViewModelFactory>
-    val viewModel: ErrorViewModel by viewModels {
+    internal lateinit var viewModelFactory: Lazy<ErrorViewModel.Factory>
+    private val viewModel: ErrorViewModel by viewModels {
         viewModelFactory.get()
     }
 

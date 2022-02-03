@@ -1,7 +1,6 @@
 package com.example.trainee.di
 
 import androidx.lifecycle.ViewModel
-import com.example.feature_error.ErrorViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -16,8 +15,8 @@ interface ViewModelModule {
 //    @[IntoMap ViewModelKey(DepartmentHostViewModel::class)]
 //    fun provideDepartmentHostViewModel(departmentHostViewModel: DepartmentHostViewModel): ViewModel
 
-    @Binds
-    @[IntoMap ViewModelKey(ErrorViewModel::class)]
-    fun provideErrorViewModel(errorFragment: ErrorViewModel): ViewModel
+//    @Binds
+//    @[IntoMap ViewModelKey(ErrorViewModel::class)]
+//    fun provideErrorViewModel(errorFragment: ErrorViewModel): ViewModel
 
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.example.feature_error.ErrorFragment">
+    tools:context="com.example.feature_error.presentation.ErrorFragment">
 
     <ImageView
         android:id="@+id/flying_saucer"

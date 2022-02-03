@@ -22,9 +22,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.Lazy
 import javax.inject.Inject
 
-internal class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
+class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     @Inject
-    lateinit var viewModelFactory: Lazy<DepartmentHostViewModel.Factory>
+    internal lateinit var viewModelFactory: Lazy<DepartmentHostViewModel.Factory>
     private val viewModel: DepartmentHostViewModel by viewModels {
         viewModelFactory.get()
     }

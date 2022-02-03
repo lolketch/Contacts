@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/errorFragment"
-        android:name="com.example.feature_error.ErrorFragment"
+        android:name="com.example.feature_error.presentation.ErrorFragment"
         android:label="fragment_error"
         tools:layout="@layout/fragment_error" >
         <action
