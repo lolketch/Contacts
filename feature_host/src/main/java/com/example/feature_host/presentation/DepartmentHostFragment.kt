@@ -1,4 +1,4 @@
-package com.example.feature_host
+package com.example.feature_host.presentation
 
 import android.content.Context
 import android.graphics.Color
@@ -15,14 +15,16 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.api.MultiViewModelFactory
 import com.example.core.SearchListener
 import com.example.core.SearchParams
+import com.example.feature_host.di.FeatureHostComponentViewModel
+import com.example.feature_host.R
 import com.example.feature_host.databinding.FragmentDepartmentHostBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.Lazy
 import javax.inject.Inject
 
-class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
+internal class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     @Inject
-    lateinit var viewModelFactory: Lazy<MultiViewModelFactory>
+    lateinit var viewModelFactory: Lazy<DepartmentHostViewModel.Factory>
     private val viewModel: DepartmentHostViewModel by viewModels {
         viewModelFactory.get()
     }

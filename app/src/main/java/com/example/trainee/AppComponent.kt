@@ -5,7 +5,7 @@ import com.example.api.ConnectResolver
 import com.example.api.MultiViewModelFactory
 import com.example.api.RemoteDataSource
 import com.example.feature_error.ErrorDeps
-import com.example.feature_host.HostDeps
+import com.example.feature_host.di.HostDeps
 import com.example.feature_list.di.DepartmentDeps
 import com.example.trainee.di.NetworkModule
 import com.example.trainee.di.ViewModelModule

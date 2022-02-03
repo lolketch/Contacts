@@ -32,9 +32,10 @@ internal interface ListComponent {
 
 interface DepartmentDeps {
 
+    val remoteDataSource: RemoteDataSource
+
     val connectResolver: ConnectResolver
 
-    val remoteDataSource : RemoteDataSource
 }
 
 interface DepartmentDepsProvider {

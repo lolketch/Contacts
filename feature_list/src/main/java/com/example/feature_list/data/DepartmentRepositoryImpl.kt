@@ -6,7 +6,7 @@ import com.example.feature_list.domain.DepartmentRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
-class DepartmentRepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDataSource) :
+internal class DepartmentRepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDataSource) :
     DepartmentRepository {
     override fun fetchUsers(): Single<Users> = remoteDataSource.fetchUsers()
 }

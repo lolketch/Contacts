@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/departmentHostFragment"
-        android:name="com.example.feature_host.DepartmentHostFragment"
+        android:name="com.example.feature_host.presentation.DepartmentHostFragment"
         android:label="fragment_department_host"
         tools:layout="@layout/fragment_department_host" >
         <action

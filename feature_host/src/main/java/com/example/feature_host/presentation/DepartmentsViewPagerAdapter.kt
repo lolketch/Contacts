@@ -1,4 +1,4 @@
-package com.example.feature_host
+package com.example.feature_host.presentation
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -9,7 +9,7 @@ import com.example.core.SearchParams
 import com.example.feature_list.presentation.DepartmentFragment
 
 
-class DepartmentsViewPagerAdapter(
+internal class DepartmentsViewPagerAdapter(
     fm: FragmentManager,
     lifecycle: Lifecycle,
     private val searchParam: SearchParams
