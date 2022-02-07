@@ -1,4 +1,4 @@
-package com.example.api
+package com.example.core
 
 import android.net.ConnectivityManager
 import android.os.Build

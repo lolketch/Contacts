@@ -1,9 +1,8 @@
 package com.example.api
 
-import com.example.trainee.data.model.Users
 import io.reactivex.Single
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(private val usersApi: UsersApi) {
-    fun fetchUsers(): Single<Users> = usersApi.fetchUsers()
+    fun fetchUsers(): Single<DataDto> = usersApi.fetchUsers()
 }

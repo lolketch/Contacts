@@ -2,28 +2,32 @@ package com.example.feature_error.presentation
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.fragment.app.Fragment
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
-import com.example.api.MultiViewModelFactory
+import com.example.core.BaseFragment
+import com.example.core.BaseViewModelFactory
 import com.example.feature_error.di.FeatureErrorComponentViewModel
 import com.example.feature_error.R
 import com.example.feature_error.databinding.FragmentErrorBinding
 import dagger.Lazy
 import javax.inject.Inject
 
-class ErrorFragment : Fragment(R.layout.fragment_error) {
+class ErrorFragment : BaseFragment<FragmentErrorBinding>() {
     @Inject
-    internal lateinit var viewModelFactory: Lazy<ErrorViewModel.Factory>
+    internal lateinit var viewModelFactory: Lazy<BaseViewModelFactory<ErrorViewModel>>
     private val viewModel: ErrorViewModel by viewModels {
         viewModelFactory.get()
     }
 
-    private var _binding: FragmentErrorBinding? = null
-    private val binding get() = _binding!!
+    override fun initBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentErrorBinding = FragmentErrorBinding.inflate(inflater, container, false)
 
     override fun onAttach(context: Context) {
         ViewModelProvider(this).get<FeatureErrorComponentViewModel>()
@@ -33,7 +37,6 @@ class ErrorFragment : Fragment(R.layout.fragment_error) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentErrorBinding.bind(view)
 
         observerConnection()
 
@@ -42,14 +45,9 @@ class ErrorFragment : Fragment(R.layout.fragment_error) {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun observerConnection() {
-        viewModel.connection.observe(viewLifecycleOwner, {
-            if (it == true) {
+        viewModel.connection.observe(viewLifecycleOwner, { connection ->
+            if (connection == true) {
                 findNavController().navigate(R.id.action_errorFragment_to_departmentHostFragment)
             }
         })

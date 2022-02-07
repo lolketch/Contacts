@@ -2,15 +2,11 @@ package com.example.feature_host.di
 
 import androidx.annotation.RestrictTo
 import androidx.lifecycle.ViewModel
-import com.example.api.ConnectResolver
-import com.example.api.MultiViewModelFactory
+import com.example.core.ConnectResolver
 import com.example.core.FeatureScope
-import com.example.feature_host.data.HostRepositoryImpl
-import com.example.feature_host.domain.HostRepository
+import com.example.feature_host.di.module.RepositoryModule
 import com.example.feature_host.presentation.DepartmentHostFragment
-import dagger.Binds
 import dagger.Component
-import dagger.Module
 import kotlin.properties.Delegates
 
 @FeatureScope
@@ -48,13 +44,4 @@ object HostDepsStore : HostDepsProvider {
 
 internal class FeatureHostComponentViewModel : ViewModel() {
     val newComponent = DaggerFeatureHostComponent.builder().deps(HostDepsProvider.deps).build()
-}
-
-@Module
-internal interface RepositoryModule {
-
-    @FeatureScope
-    @Binds
-    fun bindRepository(hostRepositoryImpl: HostRepositoryImpl): HostRepository
-
 }

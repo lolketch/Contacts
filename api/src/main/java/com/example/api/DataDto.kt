@@ -1,16 +1,16 @@
-package com.example.trainee.data.model
+package com.example.api
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-data class Users(
-    val items: List<User>
+data class DataDto(
+    @SerializedName("items") val users: List<UserDto>
 )
 
 @Parcelize
-data class User(
+data class UserDto(
     @SerializedName("id") val id: String,
     @SerializedName("avatarUrl") val avatar: String,
     @SerializedName("firstName") val firstName: String,

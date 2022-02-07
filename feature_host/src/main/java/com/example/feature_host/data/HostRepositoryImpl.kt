@@ -1,6 +1,6 @@
 package com.example.feature_host.data
 
-import com.example.api.ConnectResolver
+import com.example.core.ConnectResolver
 import com.example.feature_host.domain.HostRepository
 import javax.inject.Inject
 

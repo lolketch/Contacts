@@ -4,15 +4,17 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.example.api.MultiViewModelFactory
+import com.example.core.BaseFragment
+import com.example.core.BaseViewModelFactory
 import com.example.core.SearchListener
 import com.example.core.SearchParams
 import com.example.feature_host.di.FeatureHostComponentViewModel
@@ -22,43 +24,26 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.Lazy
 import javax.inject.Inject
 
-class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
+class DepartmentHostFragment : BaseFragment<FragmentDepartmentHostBinding>() {
     @Inject
-    internal lateinit var viewModelFactory: Lazy<DepartmentHostViewModel.Factory>
+    internal lateinit var viewModelFactory: Lazy<BaseViewModelFactory<DepartmentHostViewModel>>
     private val viewModel: DepartmentHostViewModel by viewModels {
         viewModelFactory.get()
     }
 
-    private var _binding: FragmentDepartmentHostBinding? = null
-    private val binding get() = _binding!!
-
     private var adapterViewPager: DepartmentsViewPagerAdapter? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
 
-    private val tabsTitles by lazy(LazyThreadSafetyMode.NONE) {
-        listOf(
-            "All", "Analytics", "Android", "Back office",
-            "Backend", "Design", "Frontend", "HR", "iOS", "Management", "PR", "QA", "Support"
-        )
-    }
-    private val viewPagerCallback by lazy() {
-        object : ViewPager2.OnPageChangeCallback() {
+    private val tabsTitles = listOf(
+        "All", "Analytics", "Android", "Back office",
+        "Backend", "Design", "Frontend", "HR", "iOS", "Management", "PR", "QA", "Support"
+    )
 
-            override fun onPageSelected(position: Int) {
-                this@DepartmentHostFragment.onPageSelected()
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-                super.onPageScrollStateChanged(state)
-
-                when (state) {
-                    ViewPager2.SCROLL_STATE_IDLE -> binding.swipeRefresh.isEnabled = true
-                    ViewPager2.SCROLL_STATE_DRAGGING -> binding.swipeRefresh.isEnabled = false
-                    ViewPager2.SCROLL_STATE_SETTLING -> binding.swipeRefresh.isEnabled = false
-                }
-            }
-        }
-    }
+    override fun initBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentDepartmentHostBinding =
+        FragmentDepartmentHostBinding.inflate(inflater, container, false)
 
     override fun onAttach(context: Context) {
         ViewModelProvider(this).get<FeatureHostComponentViewModel>()
@@ -68,14 +53,13 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentDepartmentHostBinding.bind(view)
 
         val searchParams = SearchParams(searchText = binding.searchEditText.text.toString())
         adapterViewPager =
             DepartmentsViewPagerAdapter(childFragmentManager, lifecycle, searchParams)
 
         binding.viewPager.apply {
-            registerOnPageChangeCallback(viewPagerCallback)
+            registerOnPageChangeCallback(ViewPagerCallback())
             this.adapter = adapterViewPager
         }
 
@@ -86,12 +70,11 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         adapterViewPager = null
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
         binding.viewPager.adapter = null
-        _binding = null
+        super.onDestroyView()
     }
 
     private fun setRefreshListener() {
@@ -162,5 +145,21 @@ class DepartmentHostFragment : Fragment(R.layout.fragment_department_host) {
                     action.invoke(selectedPage)
                 }
             }
+    }
+
+    inner class ViewPagerCallback : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            this@DepartmentHostFragment.onPageSelected()
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+            super.onPageScrollStateChanged(state)
+
+            when (state) {
+                ViewPager2.SCROLL_STATE_IDLE -> binding.swipeRefresh.isEnabled = true
+                ViewPager2.SCROLL_STATE_DRAGGING -> binding.swipeRefresh.isEnabled = false
+                ViewPager2.SCROLL_STATE_SETTLING -> binding.swipeRefresh.isEnabled = false
+            }
+        }
     }
 }

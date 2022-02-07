@@ -3,39 +3,46 @@ package com.example.feature_list.presentation
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.api.MultiViewModelFactory
+import com.example.api.UserDto
+import com.example.core.BaseFragment
+import com.example.core.BaseViewModelFactory
 import com.example.core.SearchListener
+import com.example.core.Constance.USER_DATA
+import com.example.core.SearchParams
 import com.example.feature_list.*
 import com.example.feature_list.di.FeatureDepartmentComponentViewModel
 import com.example.feature_list.databinding.FragmentDepartmentBinding
-import com.example.trainee.data.model.User
 import com.google.android.material.snackbar.Snackbar
 import dagger.Lazy
 import javax.inject.Inject
 
-class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListener {
+class DepartmentFragment : BaseFragment<FragmentDepartmentBinding>(), SearchListener {
     @Inject
-    internal lateinit var viewModelFactory: Lazy<DepartmentViewModel.Factory>
+    internal lateinit var viewModelFactory: Lazy<BaseViewModelFactory<DepartmentViewModel>>
     private val viewModel: DepartmentViewModel by viewModels {
         viewModelFactory.get()
     }
 
-    private var _binding: FragmentDepartmentBinding? = null
-    private val binding get() = _binding!!
-
-    private lateinit var searchText: String
-    private lateinit var nameDepartment: String
-    private val listUsers: MutableList<User> = mutableListOf()
+    private var searchText = ""
+    private var nameDepartment = ""
+    private val listUsers: MutableList<UserDto> = mutableListOf()
 
     private var departmentAdapter: DepartmentAdapter? = null
+
+    override fun initBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentDepartmentBinding = FragmentDepartmentBinding.inflate(inflater, container, false)
 
     override fun onAttach(context: Context) {
         ViewModelProvider(this).get<FeatureDepartmentComponentViewModel>()
@@ -50,7 +57,6 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentDepartmentBinding.bind(view)
 
         departmentAdapter = DepartmentAdapter()
         initUi()
@@ -61,7 +67,6 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         departmentAdapter = null
     }
 
@@ -74,18 +79,11 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
 
     private fun getArgs() {
         nameDepartment = arguments?.get(NAME_DEPARTMENT).toString()
-        searchText = (arguments?.get(SEARCH_TEXT) as com.example.core.SearchParams).searchText
+        searchText = (arguments?.get(SEARCH_TEXT) as SearchParams).searchText
     }
 
     private fun attachClicksAdapter() {
-        departmentAdapter?.attachClicks(object : UserListAdapterClicks {
-            override fun onItemClick(model: User) {
-                findNavController().navigate(
-                    R.id.action_departmentHostFragment_to_profileFragment,
-                    bundleOf("USER_DATA" to model)
-                )
-            }
-        })
+        departmentAdapter?.attachClicks(NavigateAdapterClicks(findNavController()))
     }
 
     private fun bindViewState(viewState: UsersListViewState) {
@@ -166,5 +164,14 @@ class DepartmentFragment : Fragment(R.layout.fragment_department), SearchListene
     companion object {
         const val NAME_DEPARTMENT = "NAME_DEPARTMENT"
         const val SEARCH_TEXT = "SEARCH_TEXT"
+    }
+}
+
+class NavigateAdapterClicks(private val navController: NavController) : UserListAdapterClicks {
+    override fun onItemClick(model: UserDto) {
+        navController.navigate(
+            R.id.action_departmentHostFragment_to_profileFragment,
+            bundleOf(USER_DATA to model)
+        )
     }
 }

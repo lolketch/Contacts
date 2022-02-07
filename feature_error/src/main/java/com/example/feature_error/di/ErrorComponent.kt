@@ -2,15 +2,11 @@ package com.example.feature_error.di
 
 import androidx.annotation.RestrictTo
 import androidx.lifecycle.ViewModel
-import com.example.api.ConnectResolver
-import com.example.api.MultiViewModelFactory
+import com.example.core.ConnectResolver
 import com.example.core.FeatureScope
-import com.example.feature_error.data.ErrorRepositoryImpl
-import com.example.feature_error.domain.ErrorRepository
+import com.example.feature_error.di.module.RepositoryModule
 import com.example.feature_error.presentation.ErrorFragment
-import dagger.Binds
 import dagger.Component
-import dagger.Module
 import kotlin.properties.Delegates
 
 @FeatureScope
@@ -49,13 +45,4 @@ object ErrorDepsStore : ErrorDepsProvider {
 internal class FeatureErrorComponentViewModel : ViewModel() {
 
     val newComponent = DaggerErrorComponent.builder().deps(ErrorDepsProvider.deps).build()
-}
-
-@Module
-internal interface RepositoryModule {
-
-    @FeatureScope
-    @Binds
-    fun bindRepository(errorRepositoryImpl: ErrorRepositoryImpl): ErrorRepository
-
 }

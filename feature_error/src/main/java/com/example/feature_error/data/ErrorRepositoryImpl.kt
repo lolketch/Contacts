@@ -1,6 +1,6 @@
 package com.example.feature_error.data
 
-import com.example.api.ConnectResolver
+import com.example.core.ConnectResolver
 import com.example.feature_error.domain.ErrorRepository
 import javax.inject.Inject
 

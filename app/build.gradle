@@ -95,6 +95,7 @@ dependencies {
     implementation project(":feature_detail")
     implementation project(":feature_host")
     implementation project(":feature_error")
+    implementation project(":core")
     implementation project(":navigation")
 
     implementation 'androidx.core:core-ktx:1.7.0'

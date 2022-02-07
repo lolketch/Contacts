@@ -1,4 +1,4 @@
-package com.example.trainee.di
+package com.example.trainee.di.module
 
 import android.app.Application
 import android.content.Context
@@ -11,7 +11,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 const val baseUrl = "https://run.mocky.io/v3/"
 
