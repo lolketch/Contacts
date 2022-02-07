@@ -1,21 +1,17 @@
 package com.example.feature_list.presentation
 
 import androidx.lifecycle.*
-import com.example.core.ConnectResolver
 import com.example.api.UserDto
 import com.example.feature_list.UsersListViewState
-import com.example.feature_list.domain.DepartmentUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.example.feature_list.domain.usecase.FetchUsers
+import com.example.feature_list.domain.usecase.SearchUsers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 internal class DepartmentViewModel @Inject constructor(
-    private val departmentUseCase: DepartmentUseCase,
-    private val connectResolver: ConnectResolver
+    private val fetchUsers: FetchUsers,
+    private val searchUsers: SearchUsers
 ) : ViewModel() {
-
-    private val compositeDisposable = CompositeDisposable()
     private val _searchList = MutableLiveData<List<UserDto>>()
     private val _viewState = MutableLiveData<UsersListViewState>()
     val searchList: LiveData<List<UserDto>> = _searchList
@@ -26,28 +22,26 @@ internal class DepartmentViewModel @Inject constructor(
     }
 
     fun fetchUsers() {
-        if (connectResolver.isOnline()) {
-            _viewState.postValue(UsersListViewState.Loading)
-            compositeDisposable.add(
-                departmentUseCase.fetchUsers()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        _viewState.postValue(UsersListViewState.Success(items = it))
-                    }, {
-                        _viewState.postValue(UsersListViewState.Error(message = it.localizedMessage))
-                    })
-            )
-        } else _viewState.postValue(UsersListViewState.Error("Not internet"))
+        fetchUsers.execute(
+            onLoading = {
+                _viewState.postValue(UsersListViewState.Loading)
+            },
+            onSuccess = {
+                _viewState.postValue(UsersListViewState.Success(items = it))
+            },
+            onError = {
+                _viewState.postValue(UsersListViewState.Error(message = it.localizedMessage))
+            }
+        )
     }
 
     fun onSearchTextChanged(searchText: String, listUsers: List<UserDto>) {
-        val filteredUserList = departmentUseCase.onSearchTextChanged(searchText, listUsers)
+        val filteredUserList = searchUsers.onSearchTextChanged(searchText, listUsers)
         _searchList.postValue(filteredUserList)
     }
 
     override fun onCleared() {
-        compositeDisposable.dispose()
+        fetchUsers.dispose()
         super.onCleared()
     }
 }

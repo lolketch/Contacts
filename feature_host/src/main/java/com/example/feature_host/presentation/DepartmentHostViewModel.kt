@@ -3,10 +3,10 @@ package com.example.feature_host.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.feature_host.domain.HostUseCase
+import com.example.feature_host.domain.usecase.CheckConnection
 import javax.inject.Inject
 
-internal class DepartmentHostViewModel @Inject constructor(private val hostUseCase: HostUseCase) :
+internal class DepartmentHostViewModel @Inject constructor(private val checkConnection: CheckConnection) :
     ViewModel() {
 
     private val _connection = MutableLiveData<Boolean>()
@@ -17,7 +17,7 @@ internal class DepartmentHostViewModel @Inject constructor(private val hostUseCa
     }
 
     private fun checkConnection() {
-        _connection.postValue(hostUseCase.checkConnection())
+        _connection.postValue(checkConnection.checkConnection())
     }
 
 }

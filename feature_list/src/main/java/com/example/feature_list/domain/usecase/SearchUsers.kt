@@ -1,10 +1,9 @@
-package com.example.feature_list.domain
+package com.example.feature_list.domain.usecase
 
 import com.example.api.UserDto
 import javax.inject.Inject
 
-internal class DepartmentUseCase @Inject constructor(private val repository: DepartmentRepository) {
-    fun fetchUsers() = repository.fetchUsers()
+class SearchUsers @Inject constructor() {
 
     fun onSearchTextChanged(
         searchText: String,

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="snack_error">Не могу обновить данные.\nПроверь соединение с интернетом.</string>
+    <string name="snack_error_404">Не могу обновить данные.\nПроверь соединение с интернетом.</string>
+    <string name="snack_error_500">Проблемы с сервером.\nПопробуй чуть позже.</string>
+    <string name="snack_error">Вабба-лабба-даб-даб!</string>
     <string name="snack_refresh">Секундочку, гружусь…</string>
 </resources>

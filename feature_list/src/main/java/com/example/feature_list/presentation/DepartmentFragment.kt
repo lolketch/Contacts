@@ -14,8 +14,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.api.UserDto
-import com.example.core.BaseFragment
-import com.example.core.BaseViewModelFactory
+import com.example.core.base.BaseFragment
+import com.example.core.base.BaseViewModelFactory
 import com.example.core.SearchListener
 import com.example.core.Constance.USER_DATA
 import com.example.core.SearchParams
@@ -102,7 +102,7 @@ class DepartmentFragment : BaseFragment<FragmentDepartmentBinding>(), SearchList
             }
 
             is UsersListViewState.Error -> {
-                onSnackView(requireView(), getString(R.string.snack_error), "#FFF44336")
+                onSnackView(requireView(), getString(R.string.snack_error_404), "#FFF44336")
                 binding.userRecyclerView.visibility = View.GONE
                 binding.loaderView.visibility = View.GONE
             }

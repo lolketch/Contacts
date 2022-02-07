@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.api.UserDto
-import com.example.core.BaseFragment
+import com.example.core.base.BaseFragment
 import com.example.core.Constance.USER_DATA
 import com.example.feature_detail.databinding.FragmentProfileBinding
 

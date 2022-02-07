@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.example.core.BaseFragment
-import com.example.core.BaseViewModelFactory
+import com.example.core.base.BaseFragment
+import com.example.core.base.BaseViewModelFactory
 import com.example.core.SearchListener
 import com.example.core.SearchParams
 import com.example.feature_host.di.FeatureHostComponentViewModel

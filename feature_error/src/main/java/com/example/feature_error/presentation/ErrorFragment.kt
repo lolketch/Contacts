@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
-import com.example.core.BaseFragment
-import com.example.core.BaseViewModelFactory
+import com.example.core.base.BaseFragment
+import com.example.core.base.BaseViewModelFactory
 import com.example.feature_error.di.FeatureErrorComponentViewModel
 import com.example.feature_error.R
 import com.example.feature_error.databinding.FragmentErrorBinding
