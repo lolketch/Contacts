@@ -1,11 +1,12 @@
 package com.example.core.base
 
+import com.example.core.SchedulerProvider
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
-abstract class SingleUseCase<T> {
+abstract class UseCase<T> (
+    private val schedulerProvider: SchedulerProvider
+) {
 
     protected abstract fun buildUseCaseSingle(): Single<T>
     private val compositeDisposable = CompositeDisposable()
@@ -19,8 +20,8 @@ abstract class SingleUseCase<T> {
         onLoading()
         compositeDisposable.add(
             buildUseCaseSingle()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.mainThread())
                 .doAfterTerminate(onFinished)
                 .subscribe(onSuccess, onError)
         )

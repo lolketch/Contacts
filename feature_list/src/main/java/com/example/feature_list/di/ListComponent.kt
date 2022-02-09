@@ -4,7 +4,8 @@ import androidx.annotation.RestrictTo
 import androidx.lifecycle.ViewModel
 import com.example.core.ConnectResolver
 import com.example.api.RemoteDataSource
-import com.example.core.FeatureScope
+import com.example.core.di.FeatureScope
+import com.example.core.di.SchedulerModule
 import com.example.feature_list.di.module.RepositoryModule
 import com.example.feature_list.presentation.DepartmentFragment
 import dagger.Component
@@ -12,7 +13,7 @@ import kotlin.properties.Delegates
 
 @FeatureScope
 @Component(
-    modules = [RepositoryModule::class],
+    modules = [RepositoryModule::class, SchedulerModule::class],
     dependencies = [DepartmentDeps::class]
 )
 internal interface ListComponent {

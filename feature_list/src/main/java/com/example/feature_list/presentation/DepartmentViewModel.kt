@@ -5,7 +5,6 @@ import com.example.api.UserDto
 import com.example.feature_list.UsersListViewState
 import com.example.feature_list.domain.usecase.FetchUsers
 import com.example.feature_list.domain.usecase.SearchUsers
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 internal class DepartmentViewModel @Inject constructor(

@@ -3,7 +3,7 @@ package com.example.feature_host.di
 import androidx.annotation.RestrictTo
 import androidx.lifecycle.ViewModel
 import com.example.core.ConnectResolver
-import com.example.core.FeatureScope
+import com.example.core.di.FeatureScope
 import com.example.feature_host.di.module.RepositoryModule
 import com.example.feature_host.presentation.DepartmentHostFragment
 import dagger.Component
