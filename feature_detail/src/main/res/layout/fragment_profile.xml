@@ -40,6 +40,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:textColor="#050510"
+        android:textSize="24sp"
+        android:textStyle="bold"
         android:maxWidth="300dp"
         app:layout_constraintEnd_toStartOf="@id/tag"
         app:layout_constraintStart_toStartOf="@id/userPhoto"
@@ -75,6 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
+        android:src="@drawable/ic_star"
         app:layout_constraintBottom_toBottomOf="@id/birthday"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/birthday" />
@@ -86,7 +90,7 @@
         android:layout_marginStart="14dp"
         android:layout_marginTop="27dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@id/age"
+
         app:layout_constraintStart_toEndOf="@id/imageViewStar"
         app:layout_constraintTop_toBottomOf="@id/viewDark"
         tools:text="5 июня 1996" />
@@ -101,5 +105,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/birthday"
         tools:text="24 года" />
+
+    <ImageView
+        android:id="@+id/imageViewPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:src="@drawable/ic_phone"
+        app:layout_constraintBottom_toBottomOf="@id/phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/phone" />
+
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="8dp"
+
+        app:layout_constraintStart_toEndOf="@id/imageViewPhone"
+        app:layout_constraintTop_toBottomOf="@id/birthday"
+        tools:text="+7 (999) 900 90 90" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

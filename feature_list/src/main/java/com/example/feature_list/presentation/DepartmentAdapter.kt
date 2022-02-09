@@ -53,7 +53,7 @@ class UserViewHolder(
                 .placeholder(R.drawable.ic_face_90)
                 .into(avatarImageView)
             nameUserTextView.text = userDto.firstName.plus(" ").plus(userDto.lastName)
-            positionUserTextView.text = userDto.department
+            positionUserTextView.text = userDto.position
             tagUserTextView.text = userDto.userTag.lowercase()
         }
     }
